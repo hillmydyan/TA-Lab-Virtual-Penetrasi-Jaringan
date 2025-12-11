@@ -1,0 +1,105 @@
+{% include "layout/header.html" %}
+
+<h1 class="title">DDOS Attack Simulation</h1>
+<p class="subtitle">Tampilan awal desain DDOS Lab (belum terhubung ke VM).</p>
+
+<div class="lab-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="lab-sidebar">
+        <h4>Step by Step</h4>
+
+            <div class="steps-container">
+
+                <div class="step-item">
+                    <button class="step-title" onclick="toggleStep('step1')">
+                        Step 1 — Reconnaissance
+                    </button>
+                    <div id="step1" class="step-content">
+                        <p>Pada tahap ini dilakukan pengumpulan informasi secara pasif dan aktif
+                        untuk memahami target, termasuk domain, IP, layanan yang berjalan,
+                        dan potensi celah yang bisa dimanfaatkan.</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <button class="step-title" onclick="toggleStep('step2')">
+                        Step 2 — Scanning
+                    </button>
+                    <div id="step2" class="step-content">
+                        <p>Pada tahap scanning dilakukan pemindaian port, vulnerability scanning,
+                        serta identifikasi service yang berjalan untuk menemukan titik serangan.</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <button class="step-title" onclick="toggleStep('step3')">
+                        Step 3 — Enumeration
+                    </button>
+                    <div id="step3" class="step-content">
+                        <p>Pada tahap enumeration, penguji menggali informasi yang lebih spesifik,
+                        seperti user accounts, directory listing, versioning, dan konfigurasi service.</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <button class="step-title" onclick="toggleStep('step4')">
+                        Step 4 — Exploitation
+                    </button>
+                    <div id="step4" class="step-content">
+                        <p>Eksploitasi dilakukan untuk memanfaatkan celah keamanan yang ditemukan
+                        pada tahap sebelumnya untuk memperoleh akses ke sistem.</p>
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <button class="step-title" onclick="toggleStep('step5')">
+                        Step 5 — Post-Exploitation & Reporting
+                    </button>
+                    <div id="step5" class="step-content">
+                        <p>Pada tahap akhir dilakukan dokumentasi, analisis dampak,
+                        bukti eksploitasi, dan rekomendasi perbaikan keamanan.</p>
+                    </div>
+                </div>
+
+            </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="lab-content">
+        <h2>Virtual Machine Preview</h2>
+
+        <div class="vm-grid">
+
+            <!-- Attacker Box -->
+            <div class="vm-card">
+                <h3>Attacker VM</h3>
+                <div class="vm-preview placeholder">
+                    <span>Preview Attacker VM (Desain)</span>
+                </div>
+                <div class="controls">
+                    <button class="btn primary">Start</button>
+                    <button class="btn">Reset</button>
+                    <span class="status">Status: offline</span>
+                </div>
+            </div>
+
+            <!-- Target Box -->
+            <div class="vm-card">
+                <h3>Target VM</h3>
+                <div class="vm-preview placeholder">
+                    <span>Preview Target VM (Desain)</span>
+                </div>
+                <div class="controls">
+                    <button class="btn primary">Start</button>
+                    <button class="btn">Reset</button>
+                    <span class="status">Status: offline</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+{% include "layout/footer.html" %}
