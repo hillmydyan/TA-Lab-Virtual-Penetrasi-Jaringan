@@ -27,3 +27,11 @@ def ddos_design():
 def sniffing_design():
     simpan_log("Akses LAB Sniffing")
     return render_template("lab/sniffing.html")
+
+# =========================
+# LAB DNS SPOOFING
+# =========================
+@lab.route("/lab/dns-spoofing")
+def dns_spoofing_design():
+    simpan_log("Akses LAB DNS Spoofing")
+    return render_template("lab/dns-spoofing.html")
