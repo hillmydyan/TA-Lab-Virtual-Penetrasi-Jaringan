@@ -1,0 +1,107 @@
+{% include "layout/header.html" %}
+
+<h1 class="title">Network Sniffing Simulation</h1>
+<p class="subtitle">Tampilan desain LAB Sniffing (Monitoring Traffic Jaringan).</p>
+
+<div class="lab-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="lab-sidebar">
+        <h4>Step by Step</h4>
+
+        <div class="steps-container">
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step1')">Step 1 — Start Lab</button>
+                <div id="step1" class="step-content">
+                    <p>Nyalakan seluruh virtual machine (Attacker dan Victim) pada LAB.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step2')">Step 2 — Network Mode</button>
+                <div id="step2" class="step-content">
+                    <p>Pastikan VM berada dalam satu jaringan (Host-Only / Internal Network).</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step3')">Step 3 — Identify Interface</button>
+                <div id="step3" class="step-content">
+                    <p>Gunakan perintah berikut untuk melihat interface jaringan:</p>
+                    <pre><code>ip a</code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step4')">Step 4 — Start Sniffing</button>
+                <div id="step4" class="step-content">
+                    <p>Jalankan Wireshark atau tcpdump untuk menangkap traffic jaringan.</p>
+                    <pre><code>tcpdump -i eth0</code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step5')">Step 5 — Generate Traffic</button>
+                <div id="step5" class="step-content">
+                    <p>Lakukan aktivitas dari Victim (ping, login HTTP, request web).</p>
+                    <pre><code>ping 192.168.1.10</code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step6')">Step 6 — Analyze Packet</button>
+                <div id="step6" class="step-content">
+                    <p>Analisis paket yang tertangkap (IP, Port, Protocol, Payload).</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step7')">Step 7 — Conclusion</button>
+                <div id="step7" class="step-content">
+                    <p>Catat data sensitif yang berhasil diperoleh dari hasil sniffing.</p>
+                </div>
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="lab-content">
+        <h2>Virtual Machine Preview</h2>
+
+        <div class="vm-grid">
+
+            <!-- Sniffer VM -->
+            <div class="vm-card">
+                <h3>Sniffer VM (Attacker)</h3>
+                <div class="vm-preview placeholder">
+                    <span>Monitoring Traffic</span>
+                </div>
+                <div class="controls">
+                    <button class="btn primary">Start</button>
+                    <button class="btn">Reset</button>
+                    <span class="status">Status: offline</span>
+                </div>
+            </div>
+
+            <!-- Victim VM -->
+            <div class="vm-card">
+                <h3>Victim VM</h3>
+                <div class="vm-preview placeholder">
+                    <span>User Activity Simulation</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+function toggleStep(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+</script>
+
+{% include "layout/footer.html" %}
