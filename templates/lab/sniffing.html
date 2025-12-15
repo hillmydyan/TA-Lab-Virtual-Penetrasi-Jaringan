@@ -1,107 +1,132 @@
-{% include "layout/header.html" %}
+{% extends "layout/base.html" %}
 
-<h1 class="title">Network Sniffing Simulation</h1>
-<p class="subtitle">Tampilan desain LAB Sniffing (Monitoring Traffic Jaringan).</p>
+{% block title %}Network Sniffing Simulation - Virtual Pen Test Lab{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">Network Sniffing Simulation</h1>
+            <p class="page-subtitle">Simulasi serangan Network Sniffing untuk memonitor traffic jaringan.</p>
+        </div>
+        <div class="vm-status status-active">
+            Lab Active
+        </div>
+    </div>
+</div>
 
 <div class="lab-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="lab-sidebar">
-        <h4>Step by Step</h4>
-
+    <!-- LEFT COLUMN: STEPS -->
+    <aside class="lab-steps">
+        <h3 class="card-title">Guide Instructions</h3>
         <div class="steps-container">
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step1')">Step 1 — Start Lab</button>
-                <div id="step1" class="step-content">
-                    <p>Nyalakan seluruh virtual machine (Attacker dan Victim) pada LAB.</p>
+                <button class="step-title" onclick="toggleStep('step1')">
+                    1. Start Virtual Machines
+                </button>
+                <div id="step1" class="step-content open">
+                    <p>Nyalakan VM Attacker dan Victim. Pastikan keduanya berjalan lancar.</p>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step2')">Step 2 — Network Mode</button>
+                <button class="step-title" onclick="toggleStep('step2')">
+                    2. Config Network Mode
+                </button>
                 <div id="step2" class="step-content">
-                    <p>Pastikan VM berada dalam satu jaringan (Host-Only / Internal Network).</p>
+                    <p>Pastikan kedua VM terhubung dalam satu jaringan internal (Host-Only / Internal Network) agar
+                        dapat saling berkomunikasi.</p>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step3')">Step 3 — Identify Interface</button>
+                <button class="step-title" onclick="toggleStep('step3')">
+                    3. Identify Interface
+                </button>
                 <div id="step3" class="step-content">
-                    <p>Gunakan perintah berikut untuk melihat interface jaringan:</p>
-                    <pre><code>ip a</code></pre>
+                    <p>Cek interface jaringan yang aktif pada Attacker VM:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">ip a</code>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step4')">Step 4 — Start Sniffing</button>
+                <button class="step-title" onclick="toggleStep('step4')">
+                    4. Start Sniffing
+                </button>
                 <div id="step4" class="step-content">
-                    <p>Jalankan Wireshark atau tcpdump untuk menangkap traffic jaringan.</p>
-                    <pre><code>tcpdump -i eth0</code></pre>
+                    <p>Jalankan <strong>tcpdump</strong> atau buka <strong>Wireshark</strong> untuk mulai menangkap
+                        paket pada interface <code>eth0</code>.</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">tcpdump -i eth0</code>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step5')">Step 5 — Generate Traffic</button>
+                <button class="step-title" onclick="toggleStep('step5')">
+                    5. Generate Traffic
+                </button>
                 <div id="step5" class="step-content">
-                    <p>Lakukan aktivitas dari Victim (ping, login HTTP, request web).</p>
-                    <pre><code>ping 192.168.1.10</code></pre>
+                    <p>Di Victim VM, lakukan aktivitas jaringan seperti <code>ping</code> atau akses web HTTP
+                        (non-HTTPS).</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">ping 192.168.1.10</code>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step6')">Step 6 — Analyze Packet</button>
+                <button class="step-title" onclick="toggleStep('step6')">
+                    6. Analyze Packet
+                </button>
                 <div id="step6" class="step-content">
-                    <p>Analisis paket yang tertangkap (IP, Port, Protocol, Payload).</p>
+                    <p>Analisis paket yang tertangkap. Perhatikan Source IP, Destination IP, Protocol, dan data payload
+                        jika tidak terenkripsi.</p>
                 </div>
             </div>
 
             <div class="step-item">
-                <button class="step-title" onclick="toggleStep('step7')">Step 7 — Conclusion</button>
+                <button class="step-title" onclick="toggleStep('step7')">
+                    7. Conclusion
+                </button>
                 <div id="step7" class="step-content">
-                    <p>Catat data sensitif yang berhasil diperoleh dari hasil sniffing.</p>
+                    <p>Simpulkan informasi apa saja yang bisa didapatkan dari sniffing traffic yang tidak terenkripsi.
+                    </p>
                 </div>
             </div>
 
         </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="lab-content">
-        <h2>Virtual Machine Preview</h2>
-
+    <!-- RIGHT COLUMN: VM PREVIEW -->
+    <main class="lab-main">
         <div class="vm-grid">
-
             <!-- Sniffer VM -->
             <div class="vm-card">
-                <h3>Sniffer VM (Attacker)</h3>
-                <div class="vm-preview placeholder">
-                    <span>Monitoring Traffic</span>
+                <h3 class="card-title">Attacker VM (Sniffer)</h3>
+                <div class="vm-preview">
+                    <span>Traffic Monitoring Interface</span>
                 </div>
-                <div class="controls">
-                    <button class="btn primary">Start</button>
-                    <button class="btn">Reset</button>
-                    <span class="status">Status: offline</span>
+                <div class="vm-controls">
+                    <button class="btn btn-primary">Start VM</button>
+                    <button class="btn btn-outline">Reset</button>
+                    <span class="vm-status status-inactive">Offline</span>
                 </div>
             </div>
 
             <!-- Victim VM -->
             <div class="vm-card">
-                <h3>Victim VM</h3>
-                <div class="vm-preview placeholder">
-                    <span>User Activity Simulation</span>
+                <h3 class="card-title">Victim VM (Target)</h3>
+                <div class="vm-preview">
+                    <span>User Desktop Stream</span>
+                </div>
+                <div class="vm-controls">
+                    <button class="btn btn-outline">Check Connectivity</button>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">IP: Target</span>
                 </div>
             </div>
-
         </div>
+
     </main>
 </div>
-
-<script>
-function toggleStep(id) {
-    const el = document.getElementById(id);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
-</script>
-
-{% include "layout/footer.html" %}
+{% endblock %}

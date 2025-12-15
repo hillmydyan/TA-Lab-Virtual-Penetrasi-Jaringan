@@ -1,164 +1,150 @@
-{% include "layout/header.html" %}
+{% extends "layout/base.html" %}
 
-<h1 class="title">DDOS Attack Simulation</h1>
-<p class="subtitle">Tampilan awal desain DDOS Lab (belum terhubung ke VM).</p>
+{% block title %}DDOS Simulation - Virtual Pen Test Lab{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="page-title">DDOS Attack Simulation</h1>
+            <p class="page-subtitle">Simulasi serangan Distributed Denial of Service (DDoS).</p>
+        </div>
+        <div class="vm-status status-active">
+            Lab Active
+        </div>
+    </div>
+</div>
 
 <div class="lab-layout">
+    <!-- LEFT COLUMN: STEPS -->
+    <aside class="lab-steps">
+        <h3 class="card-title">Guide Instructions</h3>
+        <div class="steps-container">
 
-    <!-- SIDEBAR -->
-    <aside class="lab-sidebar">
-        <h4>Step by Step</h4>
-
-            <div class="steps-container">
-
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step1')">
-                        Step 1 — Start
-                    </button>
-                    <div id="step1" class="step-content">
-                        <p>Pada tahap ini silahkan hidupkan virtual machine disamping.</p>
-                    </div>
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step1')">
+                    1. Start Virtual Machine
+                </button>
+                <div id="step1" class="step-content open">
+                    <p>Pada tahap ini silahkan hidupkan virtual machine di panel kanan.</p>
                 </div>
-
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step2')">
-                        Step 2 — Target
-                    </button>
-                    <div id="step2" class="step-content">
-                        <p>berikut adalah target yang akan kamu gunakan dalam melakukan ddos (https.www.asaas.com).</p>
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step3')">
-                        Step 3 — ip address target 
-                    </button>
-                    <div id="step3" class="step-content">
-                        <p>Pada tahap ini silahkan lakukan pengecekan ip untuk mengetahui ip address target serangan.
-                            silahkan gunakan code disamping ping ((alamat website))
-                        </p>
-                    </div>  
-                </div>
-
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step4')">
-                        Step 4 — pra-exploitation
-                    </button>
-                    <div id="step4" class="step-content">
-                        <p> langgkah selanjutnya yaitu melakukan serangan ddos dengan menggunakan tools slowhttptest. dengan cara mambanjiri target dengan traffic palsu.</p>
-                        <p> berikut adalah codenya!!</p>
-                        <p> slowhttptest -c 1000 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://192.168.1.202/index.php -x 24 -p 3</p>
-                        
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step5')">
-                        Step 5 — penjelasan tools 
-                    </button>
-                    <div id="step5" class="step-content">
-                        <p>
-                        <table border="1" cellpadding="1" cellspacing="0">
-                            <tr>
-                                <th>Parameter</th>
-                                <th>Fungsi</th>
-                            </tr>
-                            <tr>
-                                <td>-c 1000</td>
-                                <td>Mensimulasikan 1000 koneksi klien lambat</td>
-                            </tr>
-                            <tr>
-                                <td>-H</td>
-                                <td>Menggunakan teknik Slowloris (header lambat)</td>
-                            </tr>
-                            <tr>
-                                <td>-g</td>
-                                <td>Menghasilkan file grafik (output .html)</td>
-                            </tr>
-                            <tr>
-                                <td>-o slowhttp</td>
-                                <td>Output file diberi nama “slowhttp”</td>
-                            </tr>
-                            <tr>
-                                <td>-i 10</td>
-                                <td>Interval antara dua paket header = 10 detik</td>
-                            </tr>
-                            <tr>
-                                <td>-r 200</td>
-                                <td>Rate koneksi baru = 200 koneksi/detik</td>
-                            </tr>
-                            <tr>
-                                <td>-t GET</td>
-                                <td>Jenis request GET lambat</td>
-                            </tr>
-                            <tr>
-                                <td>-u http://192.168.1.202/index.php</td>
-                                <td>Target dalam LAB kamu sendiri</td>
-                            </tr>
-                            <tr>
-                                <td>-x 24</td>
-                                <td>Timeout connection 24 detik</td>
-                            </tr>
-                            <tr>
-                                <td>-p 3</td>
-                                <td>Durasi test = 3 menit</td>
-                            </tr>
-                        </table>
-                        </p>
-
-                    </div>
-                </div>
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step6')">
-                        Step 6 — exploitation
-                    </button>
-                    <div id="step6" class="step-content">
-                        <p>silahkan jalankan code dari slowhttptest dengan target, jumlah, dan waktu serangan yang telah ditentukan.</p>
-                    </div>
-                </div>
-                <div class="step-item">
-                    <button class="step-title" onclick="toggleStep('step7')">
-                        Step 6 — hasil 
-                    </button>
-                    <div id="step7" class="step-content">
-                        <p>silahkan deskripsikan hasil dari yang kamu lakukan.</p>
-                    </div>
-                </div>
-
-
             </div>
 
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step2')">
+                    2. Identify Target
+                </button>
+                <div id="step2" class="step-content">
+                    <p>Target yang akan diserang adalah <strong>https.www.asaas.com</strong>.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step3')">
+                    3. Check IP Address
+                </button>
+                <div id="step3" class="step-content">
+                    <p>Lakukan pengecekan IP target menggunakan perintah:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px;">ping website.com</code>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step4')">
+                    4. Pre-exploitation
+                </button>
+                <div id="step4" class="step-content">
+                    <p>Gunakan tools <strong>slowhttptest</strong> untuk membanjiri traffic.</p>
+                    <p>Run command:</p>
+                    <code
+                        style="display:block; padding:8px; background:#f1f5f9; border-radius:4px; margin-top:8px; overflow-x:auto;">slowhttptest -c 1000 -H -g -o slowhttp -i 10 -r 200 -t GET -u http://192.168.1.202/index.php -x 24 -p 3</code>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step5')">
+                    5. Tool Explanation
+                </button>
+                <div id="step5" class="step-content">
+                    <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <th style="text-align:left; padding: 8px;">Param</th>
+                            <th style="text-align:left; padding: 8px;">Fungsi</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 8px;">-c 1000</td>
+                            <td style="padding:4px 8px;">1000 koneksi</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 8px;">-H</td>
+                            <td style="padding:4px 8px;">Slowloris mode</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:4px 8px;">-p 3</td>
+                            <td style="padding:4px 8px;">Durasi 3 menit</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step6')">
+                    6. Exploitation
+                </button>
+                <div id="step6" class="step-content">
+                    <p>Jalankan perintah serangan dan amati respon server.</p>
+                </div>
+            </div>
+
+            <div class="step-item">
+                <button class="step-title" onclick="toggleStep('step7')">
+                    7. Analysis
+                </button>
+                <div id="step7" class="step-content">
+                    <p>Deskripsikan hasil percobaan dan dampaknya pada server.</p>
+                </div>
+            </div>
+
+        </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="lab-content">
-        <h2>Virtual Machine Preview</h2>
-
+    <!-- RIGHT COLUMN: VM PREVIEW -->
+    <main class="lab-main">
         <div class="vm-grid">
-
             <!-- Attacker Box -->
             <div class="vm-card">
-                <h3>Attacker VM</h3>
-                <div class="vm-preview placeholder">
-                    <span>Preview Attacker VM (Desain)</span>
+                <h3 class="card-title">Attacker VM (Kali Linux)</h3>
+                <div class="vm-preview">
+                    <!-- Placeholder for VM Stream/VNC -->
+                    <span>Attacker Terminal Stream</span>
                 </div>
-                <div class="controls">
-                    <button class="btn primary">Start</button>
-                    <button class="btn">Reset</button>
-                    <span class="status">Status: offline</span>
+                <div class="vm-controls">
+                    <button class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="margin-right:8px;">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Start VM
+                    </button>
+                    <button class="btn btn-outline">Reset</button>
+                    <span class="vm-status status-inactive">Offline</span>
                 </div>
             </div>
 
             <!-- Target Box -->
             <div class="vm-card">
-                <h3>Alamat Target</h3>
-                <div class="vm-preview placeholder">
-                    <span>ini adalah alamat ip target</span>
+                <h3 class="card-title">Target VM (Server)</h3>
+                <div class="vm-preview">
+                    <span>Target Web Server Stream</span>
+                </div>
+                <div class="vm-controls">
+                    <button class="btn btn-outline">Check Status</button>
+                    <span style="font-size: 0.875rem; color: var(--text-muted);">IP: 192.168.1.105</span>
                 </div>
             </div>
-
         </div>
     </main>
 </div>
-
-{% include "layout/footer.html" %}
+{% endblock %}
