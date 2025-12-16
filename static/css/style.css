@@ -25,6 +25,7 @@
 
     /* Dimensions */
     --sidebar-width: 260px;
+    --sidebar-width-collapsed: 80px;
     --navbar-height: 64px;
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
@@ -76,7 +77,7 @@ h6 {
 
 /* Sidebar */
 .sidebar {
-    width: var(--sidebar-width);
+    width: var(--sidebar-width-collapsed);
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     position: fixed;
@@ -84,7 +85,13 @@ h6 {
     display: flex;
     flex-direction: column;
     z-index: 50;
-    transition: transform 0.3s ease;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar:hover {
+    width: var(--sidebar-width);
 }
 
 .sidebar-header {
@@ -139,15 +146,54 @@ h6 {
 .menu-icon {
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    /* Prevent shrink */
 }
+
+/* Hide/Show Text on Hover */
+.logo-text,
+.link-text,
+.header-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    /* Delay appearance slightly so width grows first */
+    transition-delay: 0s;
+}
+
+.sidebar:hover .logo-text,
+.sidebar:hover .link-text,
+.sidebar:hover .header-text {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.1s;
+}
+
+/* Center icons when collapsed */
+.brand-logo {
+    justify-content: flex-start;
+    /* Icons stay left but container is small */
+    padding-left: 0.5rem;
+    /* Adjustment to center visual weight if needed, or keep standard padding */
+}
+
+.sidebar-header {
+    padding: 0 1.5rem;
+    /* Keep original padding, or adjust if it looks off collapsed */
+}
+
+/* When collapsed, hiding the text might make things jump if not carefully aligned. 
+   The 'white-space: nowrap' on .sidebar handles the wrapping. 
+   We just need to ensure the icon is always visible. */
 
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: var(--sidebar-width);
+    margin-left: var(--sidebar-width-collapsed);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Navbar */
